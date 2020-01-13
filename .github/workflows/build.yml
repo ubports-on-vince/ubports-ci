@@ -15,12 +15,6 @@ jobs:
 
   build:
     runs-on: ubuntu-16.04
-
-    env:
-      DEVICE: vince
-      VENDOR: xiaomi
-      ANDROID_ROOT: /home/runner/work/halium/
-
     steps:
     - name: Checkout
       uses: actions/checkout@master
@@ -46,6 +40,10 @@ jobs:
         chmod +x ~/bin/repo
         git config --global user.name "BirdZhang"
         git config --global user.email "0312birdzhang@gmail.com"
+        source halium.env
+        echo "::set-env name=VENDOR::$(echo $VENDOR)"
+        echo "::set-env name=DEVICE::$(echo $DEVICE)"
+        echo "::set-env name=ANDROID_ROOT::$(echo $ANDROID_ROOT)"
 
     - name: Downloading source code
       run: |
@@ -78,10 +76,10 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: halium-boot image
-        path: /home/runner/work/halium/out/target/product/vince/halium-boot.img
+        path: ${{env.ANDROID_ROOT}}/out/target/product/${{env.DEVICE}}/halium-boot.img
 
     - name : Upload system image
       uses: actions/upload-artifact@master
       with:
         name: System image
-        path: /home/runner/work/halium/out/target/product/vince/system.img
+        path: ${{env.ANDROID_ROOT}}/out/target/product/${{env.DEVICE}}/system.img
