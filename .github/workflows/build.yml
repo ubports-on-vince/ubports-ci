@@ -56,7 +56,7 @@ jobs:
     - name: Clone device spec source
       run: |
         source halium.env
-        git clone https://github.com/ubports-on-vince/device_xiaomi_vince.git $ANDROID_ROOT/device/xiaomi/vince --depth=1
+        git clone https://github.com/ubports-on-vince/device_xiaomi_vince.git $ANDROID_ROOT/device/xiaomi/vince -b camera_tests --depth=1 
         git clone https://github.com/ubports-on-vince/vendor_xiaomi_vince.git $ANDROID_ROOT/vendor/xiaomi/vince --depth=1
         git clone https://github.com/ubports-on-vince/Xiaomi_Kernel_OpenSource.git -b tiffany-n-oss $ANDROID_ROOT/kernel/xiaomi/msm8953 --depth=1
         rm -rf $ANDROID_ROOT/halium/hybris-boot
