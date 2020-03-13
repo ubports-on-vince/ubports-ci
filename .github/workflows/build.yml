@@ -8,8 +8,9 @@
 name: Build Ubports
 
 on: 
-  release:
-    types: [published]
+  push:
+    tags:
+    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
 
@@ -30,7 +31,7 @@ jobs:
         libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev \
         libxml2 libxml2-utils lzop pngcrush rsync schedtool \
         squashfs-tools xsltproc yasm zip zlib1g-dev git \
-        qemu-user-static qemu-system-arm e2fsprogs simg2img gzip
+        qemu-user-static qemu-system-arm e2fsprogs android-tools-fsutils gzip
         sudo docker rmi `docker images -q`
         sudo rm -rf \
           /usr/share/dotnet \
@@ -92,8 +93,30 @@ jobs:
         bash -x package.sh
       shell: bash
 
-    - name: Upload flashable zip
-      uses: actions/upload-artifact@master
+    # - name: Upload flashable zip
+    #   uses: actions/upload-artifact@master
+    #   with:
+    #     name: ubports 
+    #     path: /home/runner/work/${{env.FLASHABLE_DIR}}.zip
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: ubports 
-        path: /home/runner/work/${{env.FLASHABLE_DIR}}.zip
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./${{env.FLASHABLE_DIR}}.zip
+        asset_name: ${{env.FLASHABLE_DIR}}.zip
+        asset_content_type: application/zip        
