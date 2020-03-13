@@ -29,7 +29,8 @@ jobs:
         lib32readline-dev lib32z1-dev libesd0-dev liblz4-tool \
         libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev \
         libxml2 libxml2-utils lzop pngcrush rsync schedtool \
-        squashfs-tools xsltproc yasm zip zlib1g-dev git
+        squashfs-tools xsltproc yasm zip zlib1g-dev git \
+        qemu-user-static qemu-system-arm e2fsprogs simg2img
         sudo docker rmi `docker images -q`
         sudo rm -rf \
           /usr/share/dotnet \
@@ -44,6 +45,7 @@ jobs:
         echo "::set-env name=VENDOR::$(echo $VENDOR)"
         echo "::set-env name=DEVICE::$(echo $DEVICE)"
         echo "::set-env name=ANDROID_ROOT::$(echo $ANDROID_ROOT)"
+        echo "::set-env name=FLASHABLE_DIR::$(echo $FLASHABLE_DIR)"
 
     - name: Downloading source code
       run: |
@@ -72,14 +74,26 @@ jobs:
         bash -x build-hal.sh
       shell: bash
 
-    - name : Upload boot image
-      uses: actions/upload-artifact@master
-      with:
-        name: halium-boot image
-        path: ${{env.ANDROID_ROOT}}/out/target/product/${{env.DEVICE}}/halium-boot.img
+    # - name : Upload boot image
+    #   uses: actions/upload-artifact@master
+    #   with:
+    #     name: halium-boot image
+    #     path: ${{env.ANDROID_ROOT}}/out/target/product/${{env.DEVICE}}/halium-boot.img
 
-    - name : Upload system image
+    # - name : Upload system image
+    #   uses: actions/upload-artifact@master
+    #   with:
+    #     name: System image
+    #     path: ${{env.ANDROID_ROOT}}/out/target/product/${{env.DEVICE}}/system.img
+
+    - name: Build Package
+      run: |
+        chmod +x package.sh
+        bash -x package.sh
+      shell: bash
+
+    - name: Upload flashable zip
       uses: actions/upload-artifact@master
       with:
-        name: System image
-        path: ${{env.ANDROID_ROOT}}/out/target/product/${{env.DEVICE}}/system.img
+        name: ubports 
+        path: /home/runner/work/${{env.FLASHABLE_DIR}}.zip
