@@ -39,6 +39,8 @@ function makeFlashableZip(){
     chmod +x $zipfolder/META-INF/com/google/android/updat*
     cp $ANDROID_ROOT/out/target/product/$DEVICE/halium-boot.img $zipfolder/
     cd $zipfolder
+    gzip rootfs.img
+    gzip system.img
     zip -r ../$zipfolder.zip `ls .`
 }
 
