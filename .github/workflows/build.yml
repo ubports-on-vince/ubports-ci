@@ -31,7 +31,7 @@ jobs:
         libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev \
         libxml2 libxml2-utils lzop pngcrush rsync schedtool \
         squashfs-tools xsltproc yasm zip zlib1g-dev git \
-        qemu-user-static qemu-system-arm e2fsprogs simg2img gzip
+        qemu-user-static qemu-system-arm e2fsprogs android-tools-fsutils gzip
         sudo docker rmi `docker images -q`
         sudo rm -rf \
           /usr/share/dotnet \
@@ -109,7 +109,7 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
-        
+
     - name: Upload Release Asset
       id: upload-release-asset 
       uses: actions/upload-release-asset@v1
