@@ -10,7 +10,7 @@ function checkoutHaliuminstall(){
     cd $LOCAL_WORKDIR
     git clone https://github.com/JBBgameich/halium-install.git
     # comment adb 
-    sed -i 's/adb/#adb/' halium-install/functions/core.sh
+    # sed -i 's/adb/#adb/' halium-install/functions/core.sh
     # comment clean 
     sed -i 's/trap clean_exit/#trap clean_exit/' halium-install/halium-install
     chmod +x halium-install/halium-install
@@ -28,12 +28,17 @@ function convertImgtoRootfsImg(){
     systemimg=$3
     $halium_install -p ut -u 1234 -r 1234 $rootfs_tar $systemimg
     ls .halium-install-imgs.*
+    if [ "$?" -ne "0" ]; then
+        echo "failed"
+        exit 1
+    fi
 }
 
 
 function makeFlashableZip(){
     cd $LOCAL_WORKDIR
     zipfolder=$FLASHABLE_DIR
+    mkdir -p $zipfolder
     mv .halium-install-imgs.*/*.img $zipfolder/
     cp -R ubports-ci/META-INF $zipfolder/
     chmod +x $zipfolder/META-INF/com/google/android/updat*
@@ -41,7 +46,7 @@ function makeFlashableZip(){
     cd $zipfolder
     gzip rootfs.img
     gzip system.img
-    zip -r ../$zipfolder.zip `ls .`
+    zip -r $LOCAL_WORKDIR/$zipfolder.zip halium-boot.img rootfs.img.gz system.img.gz META-INF
 }
 
 
