@@ -12,13 +12,13 @@ function checkoutHaliuminstall(){
     # comment adb 
     # sed -i 's/adb/#adb/' halium-install/functions/core.sh
     # comment clean 
-    sed -i 's/trap clean_exit/#trap clean_exit/' halium-install/halium-install
+    sed -i 's/trap clean_exit/echo donothing/' halium-install/halium-install
     chmod +x halium-install/halium-install
 }
 
 function downloadRootfsTar(){
     cd $LOCAL_WORKDIR
-    curl -LO https://ci.ubports.com/job/xenial-mainline-edge-rootfs-arm64/lastSuccessfulBuild/artifact/out/ubuntu-touch-xenial-edge-arm64-rootfs.tar.gz
+    wget https://ci.ubports.com/job/xenial-mainline-edge-rootfs-arm64/lastSuccessfulBuild/artifact/out/ubuntu-touch-xenial-edge-arm64-rootfs.tar.gz
 }
 
 function convertImgtoRootfsImg(){
@@ -51,6 +51,7 @@ function makeFlashableZip(){
 
 
 function main(){
+    cd $LOCAL_WORKDIR
     checkoutHaliuminstall
     downloadRootfsTar
     convertImgtoRootfsImg halium-install/halium-install ubuntu-touch-xenial-edge-arm64-rootfs.tar.gz \
