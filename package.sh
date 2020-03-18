@@ -18,7 +18,7 @@ function checkoutHaliuminstall(){
 
 function downloadRootfsTar(){
     cd $LOCAL_WORKDIR
-    wget https://ci.ubports.com/job/xenial-mainline-edge-rootfs-arm64/lastSuccessfulBuild/artifact/out/ubuntu-touch-xenial-edge-arm64-rootfs.tar.gz
+    wget -q -t 10 https://ci.ubports.com/job/xenial-mainline-edge-rootfs-arm64/lastSuccessfulBuild/artifact/out/ubuntu-touch-xenial-edge-arm64-rootfs.tar.gz
 }
 
 function convertImgtoRootfsImg(){
