@@ -26,7 +26,7 @@ function convertImgtoRootfsImg(){
     halium_install=$1
     rootfs_tar=$2
     systemimg=$3
-    $halium_install -p ut -u 1234 -r 1234 $rootfs_tar $systemimg
+    $halium_install -p ut -u $PHABLET_PASS -r $ROOT_PASS $rootfs_tar $systemimg
     ls .halium-install-imgs.*
     if [ "$?" -ne "0" ]; then
         echo "failed"
