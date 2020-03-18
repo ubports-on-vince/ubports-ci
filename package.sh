@@ -37,7 +37,7 @@ function convertImgtoRootfsImg(){
 
 function makeFlashableZip(){
     cd $LOCAL_WORKDIR
-    zipfolder=$FLASHABLE_DIR
+    zipfolder="$(cat ~/.current_version)"
     mkdir -p $zipfolder
     mv .halium-install-imgs.*/*.img $zipfolder/
     cp -R ubports-ci/META-INF $zipfolder/

@@ -43,6 +43,8 @@ jobs:
         git config --global user.name "BirdZhang"
         git config --global user.email "0312birdzhang@gmail.com"
         source halium.env
+        export FLASHABLE_DIR=ubports-`date +%Y%m%d-%H%M%S`-devel-$DEVICE
+        echo $FLASHABLE_DIR > ~/.current_version
         echo "::set-env name=VENDOR::$(echo $VENDOR)"
         echo "::set-env name=DEVICE::$(echo $DEVICE)"
         echo "::set-env name=ANDROID_ROOT::$(echo $ANDROID_ROOT)"
@@ -75,29 +77,12 @@ jobs:
         bash -x build-hal.sh
       shell: bash
 
-    # - name : Upload boot image
-    #   uses: actions/upload-artifact@master
-    #   with:
-    #     name: halium-boot image
-    #     path: ${{env.ANDROID_ROOT}}/out/target/product/${{env.DEVICE}}/halium-boot.img
-
-    # - name : Upload system image
-    #   uses: actions/upload-artifact@master
-    #   with:
-    #     name: System image
-    #     path: ${{env.ANDROID_ROOT}}/out/target/product/${{env.DEVICE}}/system.img
-
     - name: Build Package
       run: |
         chmod +x package.sh
         bash -x package.sh
       shell: bash
 
-    # - name: Upload flashable zip
-    #   uses: actions/upload-artifact@master
-    #   with:
-    #     name: ubports 
-    #     path: /home/runner/work/${{env.FLASHABLE_DIR}}.zip
 
     - name: Create Release
       id: create_release
