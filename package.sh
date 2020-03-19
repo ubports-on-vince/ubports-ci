@@ -40,7 +40,7 @@ function makeFlashableZip(){
     zipfolder="$(cat ~/.current_version)"
     mkdir -p $zipfolder
     mv .halium-install-imgs.*/*.img $zipfolder/
-    cp -R $(dirname $(readlink -f $0))/META-INF $zipfolder/
+    cp -R $LOCAL_WORKDIR/ubports-ci/ubports-ci/META-INF $zipfolder/
     chmod +x $zipfolder/META-INF/com/google/android/updat*
     cp $ANDROID_ROOT/out/target/product/$DEVICE/halium-boot.img $zipfolder/
     cd $zipfolder
