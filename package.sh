@@ -18,7 +18,7 @@ function checkoutHaliuminstall(){
 
 function downloadRootfsTar(){
     cd $LOCAL_WORKDIR
-    wget -q -t 10 https://ci.ubports.com/job/xenial-mainline-edge-rootfs-arm64/lastSuccessfulBuild/artifact/out/ubuntu-touch-xenial-edge-arm64-rootfs.tar.gz
+    wget -q -t 10 $ROOTFS_ARMHF -O rootfs.tar.gz
 }
 
 function convertImgtoRootfsImg(){
@@ -54,7 +54,7 @@ function main(){
     cd $LOCAL_WORKDIR
     checkoutHaliuminstall
     downloadRootfsTar
-    convertImgtoRootfsImg halium-install/halium-install ubuntu-touch-xenial-edge-arm64-rootfs.tar.gz \
+    convertImgtoRootfsImg halium-install/halium-install rootfs.tar.gz \
     $ANDROID_ROOT/out/target/product/$DEVICE/system.img
     makeFlashableZip
     echo "All is done ;)"
