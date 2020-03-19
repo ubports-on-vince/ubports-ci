@@ -12,7 +12,7 @@ function checkoutHaliuminstall(){
     # comment adb 
     # sed -i 's/adb/#adb/' halium-install/functions/core.sh
     # comment clean 
-    sed -i 's/trap clean_exit/echo donothing/' halium-install/halium-install
+    # sed -i 's/trap clean_exit/echo donothing/' halium-install/halium-install
     chmod +x halium-install/halium-install
 }
 
@@ -26,7 +26,7 @@ function convertImgtoRootfsImg(){
     halium_install=$1
     rootfs_tar=$2
     systemimg=$3
-    $halium_install -p ut -u $PHABLET_PASS -r $ROOT_PASS $rootfs_tar $systemimg
+    $halium_install -p ut -u $PHABLET_PASS -r $ROOT_PASS -tm $rootfs_tar $systemimg
     ls .halium-install-imgs.*
     if [ "$?" -ne "0" ]; then
         echo "failed"
