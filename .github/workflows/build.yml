@@ -8,8 +8,9 @@
 name: Build Ubports
 
 on: 
-  release:
-    types: [published]
+  push:
+    tags:
+    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
 
@@ -29,7 +30,8 @@ jobs:
         lib32readline-dev lib32z1-dev libesd0-dev liblz4-tool \
         libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev \
         libxml2 libxml2-utils lzop pngcrush rsync schedtool \
-        squashfs-tools xsltproc yasm zip zlib1g-dev git
+        squashfs-tools xsltproc yasm zip zlib1g-dev git \
+        qemu-user-static qemu-system-arm e2fsprogs android-tools-fsutils gzip
         sudo docker rmi `docker images -q`
         sudo rm -rf \
           /usr/share/dotnet \
@@ -41,9 +43,12 @@ jobs:
         git config --global user.name "BirdZhang"
         git config --global user.email "0312birdzhang@gmail.com"
         source halium.env
+        export FLASHABLE_DIR=ubports-`date +%Y%m%d-%H%M%S`-devel-$DEVICE
+        echo $FLASHABLE_DIR > ~/.current_version
         echo "::set-env name=VENDOR::$(echo $VENDOR)"
         echo "::set-env name=DEVICE::$(echo $DEVICE)"
         echo "::set-env name=ANDROID_ROOT::$(echo $ANDROID_ROOT)"
+        echo "::set-env name=FLASHABLE_DIR::$(echo $FLASHABLE_DIR)"
 
     - name: Downloading source code
       run: |
@@ -72,14 +77,31 @@ jobs:
         bash -x build-hal.sh
       shell: bash
 
-    - name : Upload boot image
-      uses: actions/upload-artifact@master
-      with:
-        name: halium-boot image
-        path: ${{env.ANDROID_ROOT}}/out/target/product/${{env.DEVICE}}/halium-boot.img
+    - name: Build Package
+      run: |
+        chmod +x package.sh
+        bash -x package.sh
+      shell: bash
 
-    - name : Upload system image
-      uses: actions/upload-artifact@master
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.MySecret }}
       with:
-        name: System image
-        path: ${{env.ANDROID_ROOT}}/out/target/product/${{env.DEVICE}}/system.img
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.MySecret }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: /home/runner/work/${{env.FLASHABLE_DIR}}.zip
+        asset_name: ${{env.FLASHABLE_DIR}}.zip
+        asset_content_type: application/zip        
