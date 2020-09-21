@@ -8,7 +8,6 @@ sed -i 's/external\/selinux/external\/selinux external\/libcurl/g' build/core/ma
 source build/envsetup.sh
 export USE_CCACHE=1
 breakfast $DEVICE
-make -j$(nproc) hybris-hal
 make -j$(nproc) halium-boot
 make -j$(nproc) systemimage 
 

@@ -64,12 +64,7 @@ jobs:
         git clone https://github.com/ubports-on-vince/device_xiaomi_vince.git $ANDROID_ROOT/device/xiaomi/vince --depth=1 
         git clone https://github.com/ubports-on-vince/vendor_xiaomi_vince.git $ANDROID_ROOT/vendor/xiaomi/vince --depth=1
         git clone https://github.com/ubports-on-vince/Xiaomi_Kernel_OpenSource.git -b tiffany-n-oss $ANDROID_ROOT/kernel/xiaomi/msm8953 --depth=1
-        rm -rf $ANDROID_ROOT/halium/hybris-boot
-        git clone https://github.com/Sailfish-On-Vince/hybris-boot.git $ANDROID_ROOT/halium/hybris-boot
-        git clone --recurse-submodules https://github.com/Sailfish-On-Vince/droid-hal-vince.git $ANDROID_ROOT/rpm
         git clone https://android.googlesource.com/platform/external/curl.git -b android-7.1.2_r37 $ANDROID_ROOT/external/libcurl --depth=1
-        rm -rf $ANDROID_ROOT/halium/halium-boot
-        git clone https://github.com/ubports-on-vince/halium-boot.git $ANDROID_ROOT/halium/halium-boot
 
     - name: Build HAL
       run: |
