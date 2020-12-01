@@ -5,6 +5,12 @@ cd $ANDROID_ROOT
 # replace something
 sed -i 's/external\/selinux/external\/selinux external\/libcurl/g' build/core/main.mk
 
+# droidmedia
+echo 'DROIDMEDIA_32 := true' >> external/droidmedia/env.mk
+echo 'FORCE_HAL:=1' >> external/droidmedia/env.mk
+echo 'MINIMEDIA_AUDIOPOLICYSERVICE_ENABLE := 1' >> external/droidmedia/env.mk
+echo 'AUDIOPOLICYSERVICE_ENABLE := 1' >> external/droidmedia/env.mk
+
 source build/envsetup.sh
 export USE_CCACHE=1
 breakfast $DEVICE
