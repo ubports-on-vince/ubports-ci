@@ -14,9 +14,7 @@ echo 'AUDIOPOLICYSERVICE_ENABLE := 1' >> external/droidmedia/env.mk
 source build/envsetup.sh
 export USE_CCACHE=1
 breakfast $DEVICE
-make -j$(nproc) hybris-boot
-make -j$(nproc) halium-boot
-make -j$(nproc) systemimage 
+make -j$(nproc) hybris-boot halium-boot systemimage
 
 echo "md5sum halium-boot.img and system.img"
 md5sum $ANDROID_ROOT/out/target/product/${DEVICE}/halium-boot.img
