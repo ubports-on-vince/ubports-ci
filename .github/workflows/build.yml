@@ -15,7 +15,7 @@ on:
 jobs:
 
   build:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-20.04
     steps:
     - name: Checkout
       uses: actions/checkout@master
@@ -26,14 +26,12 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y \
-        openjdk-8-jdk android-tools-adb bc \
-        bison build-essential curl flex g++-multilib \
-        gcc-multilib gnupg gperf imagemagick lib32ncurses5-dev \
-        lib32readline-dev lib32z1-dev libesd0-dev liblz4-tool \
-        libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev \
-        libxml2 libxml2-utils lzop pngcrush rsync schedtool \
-        squashfs-tools xsltproc yasm zip zlib1g-dev git \
-        qemu-user-static qemu-system-arm e2fsprogs android-tools-fsutils gzip
+        openjdk-8-jdk android-tools-adb bc bison \
+        build-essential curl flex g++-multilib gcc-multilib gnupg gperf \
+        imagemagick lib32ncurses-dev \
+        lib32readline-dev lib32z1-dev  liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev \
+        libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc yasm zip zlib1g-dev \
+        libtinfo5 libncurses5 gzip
         sudo docker rmi `docker images -q`
         sudo rm -rf \
           /usr/share/dotnet \
