@@ -12,6 +12,8 @@ echo 'MINIMEDIA_AUDIOPOLICYSERVICE_ENABLE := 1' >> external/droidmedia/env.mk
 echo 'AUDIOPOLICYSERVICE_ENABLE := 1' >> external/droidmedia/env.mk
 
 source build/envsetup.sh
+virtualenv --python 2.7 ~/python27
+source ~/python27/bin/activate
 export USE_CCACHE=1
 breakfast $DEVICE
 make -j$(nproc) hybris-boot halium-boot systemimage
