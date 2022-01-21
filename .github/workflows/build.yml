@@ -7,15 +7,14 @@
 
 name: Build Ubports
 
-on: 
-  push:
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+on: workflow_dispatch:
 
 jobs:
 
   build:
+    if: github.event.repository.owner.id == github.event.sender.id
     runs-on: ubuntu-20.04
+
     steps:
     - name: Checkout
       uses: actions/checkout@master
