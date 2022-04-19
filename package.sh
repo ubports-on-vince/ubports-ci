@@ -2,7 +2,7 @@
 
 # Script to package system.img to flashable zip
 
-LOCAL_WORKDIR=/home/runner/work/
+LOCAL_WORKDIR=$(pwd)
 
 source halium.env
 
