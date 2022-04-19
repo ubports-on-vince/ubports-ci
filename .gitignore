@@ -1,0 +1,15 @@
+rootfs
+rootfs.tar.gz
+ubports*
+init
+halium
+halium-install
+.repoconfig
+.halium-install*
+.bash_history
+.ccache
+.current_version
+.gitconfig
+.repoconfig
+.repo_.gitconfig.json
+.viminfo
