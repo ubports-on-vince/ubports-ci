@@ -11,6 +11,9 @@ echo 'FORCE_HAL:=1' >> external/droidmedia/env.mk
 echo 'MINIMEDIA_AUDIOPOLICYSERVICE_ENABLE := 1' >> external/droidmedia/env.mk
 echo 'AUDIOPOLICYSERVICE_ENABLE := 1' >> external/droidmedia/env.mk
 
+#manually clone gpg
+git clone https://github.com/ubports/android_external_gpg.git --depth=1 external/gpg
+
 source build/envsetup.sh
 virtualenv --python 2.7 ~/python27
 source ~/python27/bin/activate
