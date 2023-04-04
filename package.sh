@@ -18,7 +18,7 @@ function checkoutHaliuminstall(){
 
 function downloadRootfsTar(){
     cd $LOCAL_WORKDIR
-    wget -q -t 10 $ROOTFS_ARM64 -O rootfs.tar.gz
+    wget -q -t 10 $ROOTFS_NEW -O rootfs.tar.gz
     #wget -q -t 10 $ROOTFS_ARMHF -O rootfs.tar.gz
 }
 
