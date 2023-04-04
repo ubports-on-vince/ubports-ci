@@ -14,6 +14,9 @@ echo 'AUDIOPOLICYSERVICE_ENABLE := 1' >> external/droidmedia/env.mk
 #manually clone gpg
 git clone https://github.com/fredldotme/android_external_gpg.git --depth=1 external/gpg
 
+# for more space
+rm -rf .repo
+
 source build/envsetup.sh
 virtualenv --python 2.7 ~/python27
 source ~/python27/bin/activate

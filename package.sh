@@ -50,6 +50,10 @@ function makeFlashableZip(){
     zip -r $LOCAL_WORKDIR/$zipfolder.zip halium-boot.img rootfs.img.gz system.img.gz META-INF
 }
 
+function cleanSpace(){
+    cd $LOCAL_WORKDIR
+    rm -rf kernel device vendor .repo prebuilts
+}
 
 function main(){
     cd $LOCAL_WORKDIR
